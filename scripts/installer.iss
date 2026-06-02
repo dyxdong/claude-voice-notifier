@@ -30,6 +30,7 @@ SetupIconFile={#SourcePath}\app-icon.ico
 UninstallDisplayIcon={#SourcePath}\app-icon.ico
 Compression=lzma
 SolidCompression=yes
+ChangesEnvironment=yes
 
 [Files]
 Source: "{#SourcePath}\\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Check: DirExists('{#SourcePath}')
@@ -58,3 +59,37 @@ Filename: "cmd.exe"; Parameters: "/C attrib -h -s ""{app}\desktop.ini"" & attrib
 [UninstallDelete]
 Type: files; Name: "{app}\desktop.ini"
 Type: dirifempty; Name: "{app}"
+
+[Registry]
+Root: HKLM; Subkey: "SYSTEM\CurrentControlSet\Control\Session Manager\Environment"; ValueType: expandsz; ValueName: "Path"; ValueData: "{olddata};{app}\bin"; Check: NeedsAddPath('{app}\bin')
+
+[Code]
+function NeedsAddPath(Param: string): boolean;
+var
+  OrigPath: string;
+begin
+  if not RegQueryStringValue(HKEY_LOCAL_MACHINE, 'SYSTEM\CurrentControlSet\Control\Session Manager\Environment', 'Path', OrigPath)
+  then begin
+    Result := True;
+    exit;
+  end;
+  Result := Pos(';' + Param + ';', ';' + OrigPath + ';') = 0;
+end;
+
+procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
+var
+  Path: string;
+  AppBinPath: string;
+begin
+  if CurUninstallStep = usUninstall then
+  begin
+    AppBinPath := ExpandConstant('{app}\bin');
+    if RegQueryStringValue(HKEY_LOCAL_MACHINE, 'SYSTEM\CurrentControlSet\Control\Session Manager\Environment', 'Path', Path) then
+    begin
+      StringChangeEx(Path, AppBinPath + ';', '', True);
+      StringChangeEx(Path, AppBinPath, '', True);
+      RegWriteExpandStringValue(HKEY_LOCAL_MACHINE, 'SYSTEM\CurrentControlSet\Control\Session Manager\Environment', 'Path', Path);
+    end;
+  end;
+end;
+

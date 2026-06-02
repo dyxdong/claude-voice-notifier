@@ -37,19 +37,25 @@ Claude Voice Notifier 是一个 Windows 系统托盘应用，当 Claude Code 弹
 npm install -g claude-voice-notifier
 ```
 
-### 2. 通过 GitHub Release 安装
+### 2. 通过 GitHub Release 安装 (推荐)
 
 - 打开 GitHub Releases 页面：
-  <https://github.com/barrydong/claude-voice-notifier/releases>
-- 下载最新版本的 EXE 安装程序
-- 通过EXE安装程序安装，然后直接运行安装程序
-- 注意配置目录在%USERPROFILE%\.claude-voice-notifier中，非安装目录下的相关目录和文件。
-- 通过%USERPROFILE%\.claude-voice-notifier目录下的config.ini配置基本参数，推荐使用托盘菜单配置
-- 通过%USERPROFILE%\.claude-voice-notifier\media目录下可自定义声音文件
+  <https://github.com/dyxdong/claude-voice-notifier/releases>
+- 下载最新版本的 EXE 安装程序（`claude-voice-notifier-windows-x64-vX.X.X.exe`）。
+- 双击运行安装程序。安装过程中可自定义安装目录，安装程序会自动将软件路径添加到系统环境变量（PATH）中。
+- **首次运行**：安装完成后启动程序，会自动在 `%USERPROFILE%\.claude-voice-notifier` 下生成初始配置文件和媒体目录。
+- **重要提示**：用户的配置文件和自定义声音均存放在 `%USERPROFILE%\.claude-voice-notifier` 目录中，**而非软件安装目录**。这样即使重装或升级软件，您的配置也不会丢失。
+- 您可以通过修改 `%USERPROFILE%\.claude-voice-notifier\config.ini` 来配置基本参数，但更推荐直接使用系统托盘菜单进行可视化配置。
+- 将自定义声音文件（`.wav` 或 `.mp3`）放入 `%USERPROFILE%\.claude-voice-notifier\media` 目录即可在托盘菜单中选用。
 
-**前置要求**：Windows 11（x64），无需额外运行时。
+**前置要求**：Windows 11（x64），无需安装任何额外运行时。
 
-### 3. 上传 GitHub Release
+### 3. 卸载
+
+- **EXE 安装**：通过 Windows 设置 -> 应用 -> 卸载，或运行安装目录下的 `unins000.exe`。卸载程序会自动清理安装目录（包括隐藏文件）、系统环境变量及注册表项。
+- **npm 安装**：运行 `npm uninstall -g claude-voice-notifier`。
+
+### 4. 上传 GitHub Release (开发者参考)
 
 - 在仓库页面中选择 `Releases` → `Draft a new release`
 - 填写版本号（例如 `v1.0.6`）、标题和说明
@@ -60,23 +66,23 @@ npm install -g claude-voice-notifier
 
 ### 快速开始
 
-1. 安装后，可以：
+1. 启动程序：
 
-   A. 双击 `bin\ClaudeVoiceNotifier.exe`
+   - **方式一**：在开始菜单找到 "Claude Voice Notifier" 快捷方式运行。
+   - **方式二**：打开命令行（CMD 或 PowerShell），直接输入（得益于自动配置的环境变量）：
 
-   B. 命令行查询版本信息：
+     ```bash
+     claude-voice-notifier
+     ```
 
-   ```bash
-   claude-voice-notifier --version 或者 claude-voice-notifier -v
-   ```
+   - **方式三**：双击安装目录下的 `bin\ClaudeVoiceNotifier.exe`。
+   - **查看版本**：
 
-   C. 命令行直接启动：
+     ```bash
+     claude-voice-notifier --version  # 或 -v
+     ```
 
-   ```bash
-   claude-voice-notifier
-   ```
-
-   启动成功：会弹出加载动画窗口，3 秒后自动消失，托盘图标右下角显示"已启动"气泡。
+   启动成功后：会弹出加载动画窗口，3 秒后自动消失，系统托盘图标右下角会显示"已启动"气泡提示。
 
 2. 右键点击托盘图标可以：
    - 启动/停止监控
@@ -192,7 +198,7 @@ MIT
 
 ## 作者
 
-CC & CB & Barry
+CC & CB & CD & Barry
 
 ## 联系作者
 
@@ -224,33 +230,51 @@ Key features and highlights:
 
 ## Installation
 
+### 1. Install via npm
+
 ```bash
 npm install -g claude-voice-notifier
 ```
 
-**Prerequisites**: Windows 10+ (x64), no extra runtime required.
+### 2. Install via GitHub Release (Recommended)
+
+- Go to the GitHub Releases page:
+  <https://github.com/dyxdong/claude-voice-notifier/releases>
+- Download the latest EXE installer (`claude-voice-notifier-windows-x64-vX.X.X.exe`).
+- Run the installer. You can choose a custom installation directory, and the installer will automatically add the application path to your system environment variables (PATH).
+- **First Run**: After installation, launch the application. It will automatically generate the initial configuration and media directories at `%USERPROFILE%\.claude-voice-notifier`.
+- **Important Note**: User configuration files and custom sounds are stored in `%USERPROFILE%\.claude-voice-notifier`, **NOT** in the installation directory. This ensures your settings are preserved across upgrades or reinstallations.
+- You can configure basic parameters by editing `%USERPROFILE%\.claude-voice-notifier\config.ini`, though using the system tray menu is highly recommended.
+- Place your custom sound files (`.wav` or `.mp3`) in the `%USERPROFILE%\.claude-voice-notifier\media` directory to select them from the tray menu.
+
+**Prerequisites**: Windows 11 (x64), no extra runtime required.
+
+### 3. Uninstallation
+
+- **EXE Installation**: Go to Windows Settings -> Apps -> Uninstall, or run `unins000.exe` in the installation directory. The uninstaller will automatically clean up the installation directory (including hidden files), system environment variables, and registry entries.
+- **npm Installation**: Run `npm uninstall -g claude-voice-notifier`.
 
 ## Usage
 
 ### Quick Start
 
-1. After installation, you can:
+1. Launch the application:
 
-   A. Double-click `bin\ClaudeVoiceNotifier.exe`
+   - **Method A**: Find and run the "Claude Voice Notifier" shortcut from the Start Menu.
+   - **Method B**: Open a command prompt (CMD or PowerShell) and type (thanks to the auto-configured environment variables):
 
-   B. Check version from command line:
+     ```bash
+     claude-voice-notifier
+     ```
 
-   ```bash
-   claude-voice-notifier --version  or  claude-voice-notifier -v
-   ```
+   - **Method C**: Double-click `bin\ClaudeVoiceNotifier.exe` in the installation directory.
+   - **Check version**:
 
-   C. Launch from command line:
+     ```bash
+     claude-voice-notifier --version  # or -v
+     ```
 
-   ```bash
-   claude-voice-notifier
-   ```
-
-   On successful launch: a splash animation window appears, auto-dismisses after 3 seconds, and a "Started" bubble shows above the tray icon.
+   On successful launch: a splash animation window appears, auto-dismisses after 3 seconds, and a "Started" bubble shows above the system tray icon.
 
 2. Right-click the tray icon to:
    - Start / Stop monitoring
@@ -372,7 +396,7 @@ MIT
 
 ## Author
 
-CC & CB & Barry
+CC & CB & CD & Barry
 
 ## Contact
 
