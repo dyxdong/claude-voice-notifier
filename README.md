@@ -55,13 +55,6 @@ npm install -g claude-voice-notifier
 - **EXE 安装**：通过 Windows 设置 -> 应用 -> 卸载，或运行安装目录下的 `unins000.exe`。卸载程序会自动清理安装目录（包括隐藏文件）、系统环境变量及注册表项。
 - **npm 安装**：运行 `npm uninstall -g claude-voice-notifier`。
 
-### 4. 上传 GitHub Release (开发者参考)
-
-- 在仓库页面中选择 `Releases` → `Draft a new release`
-- 填写版本号（例如 `v1.0.6`）、标题和说明
-- 附加 `dist/claude-voice-notifier-windows-x64-v1.0.6.zip`，以及可选的安装程序
-- 发布后，用户即可从上述 Release 页面下载
-
 ## 使用方法
 
 ### 快速开始

@@ -1,13 +1,19 @@
 name: Build and Release
 
-on:
-  push:
-    tags:
-      - 'v*'
+# on:
+#  push:
+#    tags:
+#      - 'v*'
 
 jobs:
   package:
     runs-on: windows-latest
+    env:
+      S3_BUCKET: ${{ secrets.S3_BUCKET }}
+      S3_KEY: ${{ secrets.S3_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      RELEASE_ASSET_URL: ${{ secrets.RELEASE_ASSET_URL }}
+      RELEASE_ASSET_TOKEN: ${{ secrets.RELEASE_ASSET_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -23,14 +29,14 @@ jobs:
           node-version: '18'
 
       - name: Fetch exe from S3 (if configured)
-        if: ${{ and(ne(secrets.S3_BUCKET, ''), ne(secrets.S3_KEY, ''), ne(secrets.AWS_ACCESS_KEY_ID, '')) }}
+        if: ${{ env.S3_BUCKET != '' && env.S3_KEY != '' && env.AWS_ACCESS_KEY_ID != '' }}
         uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
       - name: Download exe from S3
-        if: ${{ and(ne(secrets.S3_BUCKET, ''), ne(secrets.S3_KEY, ''), ne(secrets.AWS_ACCESS_KEY_ID, '')) }}
+        if: ${{ env.S3_BUCKET != '' && env.S3_KEY != '' && env.AWS_ACCESS_KEY_ID != '' }}
         shell: pwsh
         env:
           S3_BUCKET: ${{ secrets.S3_BUCKET }}
@@ -40,7 +46,7 @@ jobs:
           aws s3 cp "s3://$env:S3_BUCKET/$env:S3_KEY" ./bin/ClaudeVoiceNotifier.exe
 
       - name: Fetch exe from GitHub Release asset (if configured)
-        if: ${{ and(ne(secrets.RELEASE_ASSET_URL, ''), ne(secrets.RELEASE_ASSET_URL, '')) }}
+        if: ${{ env.RELEASE_ASSET_URL != '' }}
         shell: pwsh
         env:
           ASSET_URL: ${{ secrets.RELEASE_ASSET_URL }}
@@ -71,3 +77,4 @@ jobs:
           files: dist\*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
