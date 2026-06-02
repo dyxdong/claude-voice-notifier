@@ -3,13 +3,13 @@
   "version": "1.0.6",
   "description": "Claude Code notifier (Windows 11 64bit Edition)",
   "private": false,
-  "homepage": "https://github.com/barrydong/claude-voice-notifier#readme",
+  "homepage": "https://github.com/dyxdong/claude-voice-notifier#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/barrydong/claude-voice-notifier.git"
+    "url": "git+https://github.com/dyxdong/claude-voice-notifier.git"
   },
   "bugs": {
-    "url": "https://github.com/barrydong/claude-voice-notifier/issues"
+    "url": "https://github.com/dyxdong/claude-voice-notifier/issues"
   },
   "bin": {
     "claude-voice-notifier": "bin/claude-voice-notifier.cmd"
