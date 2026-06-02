@@ -31,9 +31,11 @@ UninstallDisplayIcon={#SourcePath}\app-icon.ico
 Compression=lzma
 SolidCompression=yes
 ChangesEnvironment=yes
+CloseApplications=no
 
 [Files]
 Source: "{#SourcePath}\\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Check: DirExists('{#SourcePath}')
+Source: "postinstall.ps1"; DestDir: "{app}"; Flags: deleteafterinstall
 
 [Icons]
 Name: "{group}\Claude Voice Notifier"; Filename: "{app}\bin\ClaudeVoiceNotifier.exe"; IconFilename: "{app}\app-icon.ico"
@@ -89,6 +91,45 @@ begin
       StringChangeEx(Path, AppBinPath + ';', '', True);
       StringChangeEx(Path, AppBinPath, '', True);
       RegWriteExpandStringValue(HKEY_LOCAL_MACHINE, 'SYSTEM\CurrentControlSet\Control\Session Manager\Environment', 'Path', Path);
+    end;
+  end;
+end;
+
+function InitializeUninstall(): Boolean;
+var
+  ResultCode: Integer;
+  AppExeName: String;
+begin
+  Result := True;
+  AppExeName := 'ClaudeVoiceNotifier.exe';
+  
+  // Check if the process is running using tasklist
+  Exec('cmd.exe', '/C tasklist /FI "IMAGENAME eq ' + AppExeName + '" | find /I "' + AppExeName + '" > nul', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+  
+  if ResultCode = 0 then
+  begin
+    if MsgBox('检测到 Claude Voice Notifier 正在运行。' + #13#10 +
+              '是否强制关闭程序并继续卸载？' + #13#10#13#10 +
+              '点击 [是] 关闭程序并完全卸载。' + #13#10 +
+              '点击 [否] 暂时取消卸载。',
+              mbConfirmation, MB_YESNO) = IDYES then
+    begin
+      // Force kill the process
+      Exec('taskkill.exe', '/F /IM "' + AppExeName + '"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+      Sleep(2000); // Wait for process to fully exit
+      
+      // Verify it's gone
+      Exec('cmd.exe', '/C tasklist /FI "IMAGENAME eq ' + AppExeName + '" | find /I "' + AppExeName + '" > nul', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+      if ResultCode = 0 then
+      begin
+        MsgBox('无法关闭程序，请手动关闭后重试。', mbError, MB_OK);
+        Result := False;
+      end;
+    end
+    else
+    begin
+      // User chose to abort
+      Result := False;
     end;
   end;
 end;
