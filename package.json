@@ -1,0 +1,47 @@
+{
+  "name": "claude-voice-notifier",
+  "version": "1.0.6",
+  "description": "Claude Code notifier (Windows 11 64bit Edition)",
+  "private": false,
+  "homepage": "https://github.com/barrydong/claude-voice-notifier#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/barrydong/claude-voice-notifier.git"
+  },
+  "bugs": {
+    "url": "https://github.com/barrydong/claude-voice-notifier/issues"
+  },
+  "bin": {
+    "claude-voice-notifier": "bin/claude-voice-notifier.cmd"
+  },
+  "scripts": {
+    "start": "start \"\" \"bin\\ClaudeVoiceNotifier.exe\""
+  },
+  "keywords": [
+    "claude",
+    "claude-code",
+    "notification",
+    "voice",
+    "sound",
+    "tray",
+    "windows",
+    "standalone"
+  ],
+  "author": "CC, CB & Barry",
+  "license": "MIT",
+  "os": [
+    "win32"
+  ],
+  "cpu": [
+    "x64"
+  ],
+  "files": [
+    "bin/claude-voice-notifier.cmd",
+    "hooks/trigger-sound.js",
+    "media/*.wav",
+    "config.ini",
+    "LICENSE.md",
+    "README.md",
+    "app-icon.ico"
+  ]
+}

@@ -1,0 +1,33 @@
+# Build / generated files
+*.pdb
+*.cache
+*.log
+*.old
+test*.zip
+
+
+# Node modules and package manager artifacts
+node_modules/
+package-lock.json
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS files
+Thumbs.db
+ehthumbs.db
+Icon?
+
+# IDE/editor files
+.vscode/
+*.code-workspace
+
+# Built executable: use GitHub Release attachments instead of committing binaries
+bin/ClaudeVoiceNotifier.exe
+dist/
+media/
+hooks/
+
+# Ignore nested gitignore in media if present
+desktop.ini
