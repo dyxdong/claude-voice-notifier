@@ -7,7 +7,7 @@ start "" "%~dp0ClaudeVoiceNotifier.exe"
 goto :eof
 
 :version
-echo claude-voice-notifier v1.0.6
+echo claude-voice-notifier v1.0.11
 goto :eof
 
 :help
