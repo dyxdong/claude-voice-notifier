@@ -1,11 +1,11 @@
 ; Inno Setup script for Claude Voice Notifier
-; Pass MyAppVersion via ISCC /DMyAppVersion="v1.0.6" and AppVersion=/DAppVersion=1.0.6 or similar
+; Pass MyAppVersion via ISCC /DMyAppVersion="v1.0.11" and AppVersion=/DAppVersion=1.0.11 or similar
 #ifndef MyAppVersion
-#define MyAppVersion "v1.0.0"
+#define MyAppVersion "v1.0.11"
 #endif
 
 #ifndef AppVersion
-#define AppVersion "1.0.0"
+#define AppVersion "1.0.11"
 #endif
 
 #ifndef AppPublisher
@@ -22,7 +22,7 @@ AppVersion={#AppVersion}
 AppPublisher={#AppPublisher}
 AppVerName=Claude Voice Notifier {#AppVersion}
 UninstallDisplayName=Claude Voice Notifier
-DefaultDirName={pf}\Claude Voice Notifier
+DefaultDirName={commonpf}\Claude Voice Notifier
 DefaultGroupName=Claude Voice Notifier
 DisableDirPage=no
 OutputBaseFilename=claude-voice-notifier-windows-x64-{#MyAppVersion}
@@ -34,7 +34,7 @@ ChangesEnvironment=yes
 CloseApplications=no
 
 [Files]
-Source: "{#SourcePath}\\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Check: DirExists('{#SourcePath}')
+Source: "{#SourcePath}\\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "postinstall.ps1"; DestDir: "{app}"; Flags: deleteafterinstall
 
 [Icons]

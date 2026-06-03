@@ -89,5 +89,66 @@ NoSharing=1
 cmd /c "attrib +s `"$userConfigDir`""
 cmd /c "attrib +h +s `"$desktopIni`""
 
+# Fix Claude Code hooks to point to EXE installation directory
+$claudeSettingsPath = Join-Path $userProfile '.claude\settings.json'
+if (Test-Path $claudeSettingsPath) {
+    try {
+        $settings = Get-Content $claudeSettingsPath -Raw | ConvertFrom-Json
+        $triggerSoundPath = Join-Path $AppPath 'hooks\trigger-sound.js'
+        $newCommand = "node `"$triggerSoundPath`""
+        
+        $updated = $false
+        
+        # Update PreToolUse hooks
+        if ($settings.hooks.PreToolUse) {
+            foreach ($hook in $settings.hooks.PreToolUse) {
+                if ($hook.hooks) {
+                    foreach ($h in $hook.hooks) {
+                        if ($h.command -match 'trigger-sound\.js' -and $h.command -notmatch [regex]::Escape($triggerSoundPath)) {
+                            $h.command = $newCommand + ' dialog'
+                            $updated = $true
+                        }
+                    }
+                }
+            }
+        }
+        
+        # Update PermissionRequest hooks
+        if ($settings.hooks.PermissionRequest) {
+            foreach ($hook in $settings.hooks.PermissionRequest) {
+                if ($hook.hooks) {
+                    foreach ($h in $hook.hooks) {
+                        if ($h.command -match 'trigger-sound\.js' -and $h.command -notmatch [regex]::Escape($triggerSoundPath)) {
+                            $h.command = $newCommand + ' dialog'
+                            $updated = $true
+                        }
+                    }
+                }
+            }
+        }
+        
+        # Update Stop hooks
+        if ($settings.hooks.Stop) {
+            foreach ($hook in $settings.hooks.Stop) {
+                if ($hook.hooks) {
+                    foreach ($h in $hook.hooks) {
+                        if ($h.command -match 'trigger-sound\.js' -and $h.command -notmatch [regex]::Escape($triggerSoundPath)) {
+                            $h.command = $newCommand + ' session-complete'
+                            $updated = $true
+                        }
+                    }
+                }
+            }
+        }
+        
+        if ($updated) {
+            $settings | ConvertTo-Json -Depth 10 | Set-Content $claudeSettingsPath -Encoding UTF8
+            Write-Host "Claude Code hooks updated to use EXE installation path"
+        }
+    } catch {
+        Write-Warning "Failed to update Claude Code hooks: $_"
+    }
+}
+
 Write-Host "Post-install user setup completed for $userConfigDir"
 exit 0

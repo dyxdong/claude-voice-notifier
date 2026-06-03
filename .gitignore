@@ -4,6 +4,7 @@
 *.log
 *.old
 test*.zip
+local_packaging_notes.md
 
 
 # Node modules and package manager artifacts
