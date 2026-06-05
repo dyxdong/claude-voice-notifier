@@ -3,12 +3,12 @@
 ## 发布信息
 
 - Published by:       @barry.dong
-- Release Version:    1.0.11
-- Released Date:      2026-06-03
+- Release Version:    1.0.12
+- Released Date:      2026-06-05
 - Release History:
 
     1. v1.0.6: Published Windows 11 64bit version
-    2. v1.0.11: Solved npm and EXE installation's compatible issue for hooks status display
+    2. v1.0.12: Solved npm and EXE installation's compatible issue for hooks status display
 
 ## 特别说明(Special Notes)
 

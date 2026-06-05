@@ -1,11 +1,11 @@
 ; Inno Setup script for Claude Voice Notifier
-; Pass MyAppVersion via ISCC /DMyAppVersion="v1.0.11" and AppVersion=/DAppVersion=1.0.11 or similar
+; Pass MyAppVersion via ISCC /DMyAppVersion="v1.0.12" and AppVersion=/DAppVersion=1.0.12 or similar
 #ifndef MyAppVersion
-#define MyAppVersion "v1.0.11"
+#define MyAppVersion "v1.0.12"
 #endif
 
 #ifndef AppVersion
-#define AppVersion "1.0.11"
+#define AppVersion "1.0.12"
 #endif
 
 #ifndef AppPublisher
